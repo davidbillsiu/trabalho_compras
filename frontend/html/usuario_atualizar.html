@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_cad.css">
-    <script src="../js/usuario_cadastrar.js" defer></script>
-    <title>Cadastro do Usuário</title>
+    <script src="../js/usuario_atualizar.js" defer></script>
+    <title>Atualizar Usuário</title>
 </head>
 <body>
     <header>
@@ -22,9 +22,19 @@
         </nav>
     </header>
     <main>
-        <h2>Formulário de Cadastro Manual de Usuário</h2>
+        <h2>Atualizar Dados de Usuário</h2>
         <br>
-        <form id="form_manual">
+        <form id="form_busca">
+            <label for="codUsuario">Código do Usuário</label><br>
+            <input type="number" id="codUsuario" required><br><br>
+            <button id="btn_buscar">Buscar Usuário</button>
+        </form>
+
+        <br>
+        <div id="resposta" class="resposta"></div>
+        <br>
+
+        <form id="form_atualizar" style="display:none;">
             <label for="nome">Nome</label><br>
             <input type="text" id="nome" required><br><br>
 
@@ -49,21 +59,8 @@
             <label for="estado">Estado</label><br>
             <input type="text" id="estado"><br><br>
 
-            <button id="btn_cadastrar_manual">Cadastrar Usuário</button>
+            <button id="btn_salvar" style="background-color: #0284fd;">Salvar Alterações</button>
         </form>
-        
-        <br><br><hr style="border: 1px dashed white; width: 60%; margin: 0 auto;"><br>
-
-        <h2>Cadastro Automatizado em Lote</h2>
-        <br>
-        <div id="container_lote">
-            <label>Realizar a carga inicial massiva importando dados estruturados diretamente da API externa DummyJSON:</label>
-            <br><br>
-            <button id="btn_carga_lote" style="background-color: #0284fd; width: 320px;">Executar Carga em Lote (BulkCreate)</button>
-        </div>
-
-        <br><br>
-        <div id="resposta" class="resposta"></div>
     </main>
 </body>
 </html>

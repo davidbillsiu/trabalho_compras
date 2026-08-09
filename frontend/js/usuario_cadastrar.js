@@ -1,14 +1,46 @@
 let resposta = document.getElementById('resposta')
-let btn_cadastrar_manual = document.getElementById('btn_cadastrar_manual')
+let form_manual = document.getElementById('form_manual')
 let btn_carga_lote = document.getElementById('btn_carga_lote')
 
 // =========================================================================
-// COMPORTAMENTO 1: CADASTRO MANUAL (INDICAÇÃO VISUAL / APENAS MODELO)
+// COMPORTAMENTO 1: CADASTRO MANUAL (POST /usuarios)
 // =========================================================================
-btn_cadastrar_manual.addEventListener('click', (e) => {
+form_manual.addEventListener('submit', (e) => {
     e.preventDefault()
-    // Apenas indica visualmente no painel sem disparar requisições para o back-end
-    resposta.innerHTML = '<p style="color: #ffaa00;">Aviso: O cadastro manual está desativado nesta etapa. Utilize a Carga em Lote.</p>'
+
+    const novoUsuario = {
+        nome: document.getElementById('nome').value,
+        sobrenome: document.getElementById('sobrenome').value,
+        idade: document.getElementById('idade').value,
+        email: document.getElementById('email').value,
+        telefone: document.getElementById('telefone').value,
+        endereco: document.getElementById('endereco').value,
+        cidade: document.getElementById('cidade').value,
+        estado: document.getElementById('estado').value
+    }
+
+    resposta.innerHTML = '<p style="color: yellow;">Cadastrando usuário...</p>'
+
+    fetch('http://localhost:3000/usuarios', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(novoUsuario)
+    })
+    .then(res => res.json().then(dados => ({ status: res.status, dados })))
+    .then(({ status, dados }) => {
+        if (status === 201) {
+            resposta.innerHTML = `<p style="color: lightgreen;">Usuário "${dados.nome} ${dados.sobrenome}" cadastrado com sucesso! (Código ${dados.codUsuario})</p>`
+            form_manual.reset()
+        } else {
+            resposta.innerHTML = `<p style="color: red;">${dados.message || 'Erro ao cadastrar o usuário.'}</p>`
+        }
+    })
+    .catch(err => {
+        console.error('Erro no cadastro manual de usuário:', err)
+        resposta.innerHTML = '<p style="color: red;">Falha ao se comunicar com o servidor.</p>'
+    })
 })
 
 // =========================================================================
