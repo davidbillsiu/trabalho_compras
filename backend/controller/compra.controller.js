@@ -1,6 +1,5 @@
-const Usuario = require('../models/Usuario')
-const Produto = require('../models/Produto')
-const Compra = require('../models/Compra')
+// Importa os models já com os relacionamentos (associations) registrados
+const { Usuario, Produto, Compra } = require('../models/rel')
 
 const cadastrar = async (req, res) => {
     const valores = req.body
@@ -74,4 +73,45 @@ const cadastrar = async (req, res) => {
 }
 
 
-module.exports = { cadastrar }
+// ----------------------------------------------------------------------
+// Histórico completo de movimentações (Tela de Movimentação/Vendas)
+// ----------------------------------------------------------------------
+
+// Lista todas as movimentações já registradas, trazendo o nome do
+// usuário e do produto envolvidos (JOIN via association do Sequelize)
+const listar = async (req, res) => {
+    try {
+        const compras = await Compra.findAll({
+            include: [
+                { model: Usuario, as: 'usuarioCompra', attributes: ['codUsuario', 'nome', 'sobrenome'] },
+                { model: Produto, as: 'produtoCompra', attributes: ['codProduto', 'nome'] }
+            ],
+            order: [['codCompra', 'DESC']]
+        })
+        res.status(200).json(compras)
+    } catch (err) {
+        console.error('Erro ao listar o histórico de compras:', err)
+        res.status(500).json({ message: 'Erro ao listar o histórico de movimentações' })
+    }
+}
+
+// Consulta uma movimentação específica pelo código (id) da compra
+const consultar = async (req, res) => {
+    try {
+        const compra = await Compra.findByPk(req.params.id, {
+            include: [
+                { model: Usuario, as: 'usuarioCompra', attributes: ['codUsuario', 'nome', 'sobrenome'] },
+                { model: Produto, as: 'produtoCompra', attributes: ['codProduto', 'nome'] }
+            ]
+        })
+        if (!compra) {
+            return res.status(404).json({ message: 'Movimentação não encontrada!' })
+        }
+        res.status(200).json(compra)
+    } catch (err) {
+        console.error('Erro ao consultar a movimentação:', err)
+        res.status(500).json({ message: 'Erro ao consultar a movimentação' })
+    }
+}
+
+module.exports = { cadastrar, listar, consultar }

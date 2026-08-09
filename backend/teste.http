@@ -168,3 +168,103 @@ Content-Type: application/json
 ### - Consultar Relatório de Críticos (Deve apontar o produto 1 com saldo restante 1)
 GET http://localhost:3000/relatorio/produtos-criticos
 Content-Type: application/json
+
+#####################################################################
+### PASSO 4: CRUD COMPLETO - USUÁRIOS
+
+### - Cadastro manual de um usuário
+POST http://localhost:3000/usuarios
+Content-Type: application/json
+
+{
+    "nome": "Davi",
+    "sobrenome": "Testador",
+    "idade": 22,
+    "email": "davi.teste@email.com",
+    "telefone": "47999990000",
+    "endereco": "Rua das Flores, 100",
+    "cidade": "Joinville",
+    "estado": "SC"
+}
+
+### - Listar todos os usuários
+GET http://localhost:3000/usuarios
+Content-Type: application/json
+
+### - Consultar usuário por id
+GET http://localhost:3000/usuarios/1
+Content-Type: application/json
+
+### - Consultar usuário inexistente (deve retornar 404)
+GET http://localhost:3000/usuarios/9999
+Content-Type: application/json
+
+### - Atualizar dados de um usuário
+PUT http://localhost:3000/usuarios/1
+Content-Type: application/json
+
+{
+    "telefone": "47988887777",
+    "cidade": "Blumenau"
+}
+
+### - Apagar um usuário
+DELETE http://localhost:3000/usuarios/2
+Content-Type: application/json
+
+#####################################################################
+### PASSO 5: CRUD COMPLETO - PRODUTOS
+
+### - Cadastro manual de um produto
+POST http://localhost:3000/produtos
+Content-Type: application/json
+
+{
+    "nome": "Monitor Gamer 27\"",
+    "descricao": "Monitor 144hz para jogos",
+    "categoria": "Eletrônicos",
+    "preco": 1500.00,
+    "desconto": 0,
+    "qtdeEstoque": 20,
+    "marca": "GenericBrand",
+    "imagem": "https://via.placeholder.com/300"
+}
+
+### - Listar todos os produtos
+GET http://localhost:3000/produtos
+Content-Type: application/json
+
+### - Consultar produto por id
+GET http://localhost:3000/produtos/1
+Content-Type: application/json
+
+### - Consultar produto inexistente (deve retornar 404)
+GET http://localhost:3000/produtos/9999
+Content-Type: application/json
+
+### - Atualizar dados de um produto (ex: reajuste de preço/estoque)
+PUT http://localhost:3000/produtos/1
+Content-Type: application/json
+
+{
+    "preco": 55.00,
+    "qtdeEstoque": 30
+}
+
+### - Apagar um produto sem movimentações vinculadas
+DELETE http://localhost:3000/produtos/7
+
+#####################################################################
+### PASSO 6: HISTÓRICO DE MOVIMENTAÇÕES (COMPRAS)
+
+### - Listar histórico completo de movimentações (com nome de usuário/produto)
+GET http://localhost:3000/compra
+Content-Type: application/json
+
+### - Consultar uma movimentação específica por id
+GET http://localhost:3000/compra/1
+Content-Type: application/json
+
+### - Consultar movimentação inexistente (deve retornar 404)
+GET http://localhost:3000/compra/9999
+Content-Type: application/json
