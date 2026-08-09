@@ -93,7 +93,7 @@ Content-Type: application/json
     "tipoMovimento": "SAIDA",
     "quantidadeMovimentada": 2,
     "descontoAplicado": 0.00,
-    "formaPagamento": "PIX",
+    "formaPagamento": "DINHEIRO",
     "statusCompra": "PAGA",
     "dataCompra": "2026-07-06"
 }
