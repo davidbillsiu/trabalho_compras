@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_cad.css">
+    <script src="../js/relatorio_analitico.js" defer></script>
+    <title>Relatório Analítico</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html">Home</a>&emsp;&emsp;
+            <span class="titulo_menu">Painéis</span>&emsp;
+            <a href="./dashboard_produtos.html">Dashboard de Produtos</a>&emsp;
+            <a href="./relatorio_analitico.html">Relatório Analítico</a>&emsp;
+            <a href="./mov_categoria_listar.html">Relatório Gráfico</a>
+            <br><br><hr><br>
+        </nav>
+    </header>
+    <main>
+        <h1>Relatório Analítico</h1>
+        <br>
+        <button id="btn_gerar" class="btn_gerar">Gerar Relatórios</button>
+        <br><br>
+        <div id="resposta" class="resposta"></div>
+
+        <div class="container_tabela_relatorio">
+            <h2>Produtos Críticos (estoque &lt; 10 unidades)</h2>
+            <div style="overflow-x:auto;">
+                <table id="tabela_criticos">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Quantidade Atual</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpo_tabela_criticos"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <br><hr><br>
+
+        <div class="container_tabela_relatorio">
+            <h2>Volume Financeiro Comprado por Produto</h2>
+            <div style="overflow-x:auto;">
+                <table id="tabela_volume">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Quantidade Total Movimentada</th>
+                            <th>Valor Financeiro Movimentado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpo_tabela_volume"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

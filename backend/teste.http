@@ -268,3 +268,40 @@ Content-Type: application/json
 ### - Consultar movimentação inexistente (deve retornar 404)
 GET http://localhost:3000/compra/9999
 Content-Type: application/json
+
+#####################################################################
+### PASSO 7: MOVIMENTACAO DE ENTRADA (reposicao de estoque)
+
+### - Registrar uma ENTRADA de estoque para o produto 1 (valida a soma numerica corrigida)
+POST http://localhost:3000/compra
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "idProduto": 1,
+    "tipoMovimento": "ENTRADA",
+    "quantidadeMovimentada": 20,
+    "descontoAplicado": 0.00,
+    "formaPagamento": "DINHEIRO",
+    "statusCompra": "PAGA",
+    "dataCompra": "2026-07-06"
+}
+
+### - Consultar o produto 1 novamente para confirmar que o estoque foi somado corretamente
+GET http://localhost:3000/produtos/1
+Content-Type: application/json
+
+#####################################################################
+### PASSO 8: RELATORIO ANALITICO E DASHBOARD (Views SQL)
+
+### - Relatorio Analitico (Tabela) - Produtos Criticos
+GET http://localhost:3000/relatorio/produtos-criticos
+Content-Type: application/json
+
+### - Relatorio Analitico (Tabela) - Volume Financeiro por Produto
+GET http://localhost:3000/relatorio/volume-compras
+Content-Type: application/json
+
+### - Dashboard de Produtos (consome a mesma listagem em formato de cards no front-end)
+GET http://localhost:3000/produtos
+Content-Type: application/json

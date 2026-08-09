@@ -27,23 +27,32 @@ const cadastrar = async (req, res) => {
         let novaQuantidade = produto.qtdeEstoque
         const precoUnit = produto.preco // Recupera o preço atual direto do cadastro do produto
 
+        // Conversão explícita para número: o front-end envia os valores dos
+        // inputs como string, então sem essa conversão o operador "+=" faz
+        // concatenação de texto em vez de soma (ex.: 20 + "3" = "203")
+        const qtdeMovimentada = Number(valores.quantidadeMovimentada)
+
+        if (!qtdeMovimentada || qtdeMovimentada <= 0) {
+            return res.status(400).json({ message: "A quantidade movimentada deve ser um número maior que zero!" })
+        }
+
         // Lógica de movimentação baseada no estoque atualizado
         if (valores.tipoMovimento === 'ENTRADA') {
-            novaQuantidade += valores.quantidadeMovimentada
+            novaQuantidade += qtdeMovimentada
         } 
         else if (valores.tipoMovimento === 'SAIDA') {
-            if (produto.qtdeEstoque < valores.quantidadeMovimentada) {
+            if (produto.qtdeEstoque < qtdeMovimentada) {
                 return res.status(400).json({ message: "Quantidade insuficiente no estoque para esta saída!" })
             }
-            novaQuantidade -= valores.quantidadeMovimentada
+            novaQuantidade -= qtdeMovimentada
         } 
         else {
             return res.status(400).json({ message: "Tipo de Movimentação Inválida! Use ENTRADA ou SAIDA." })
         }
 
         // Cálculo do preço final aplicando o desconto percentual enviado (ou o padrão do banco)
-        const desconto = valores.descontoAplicado || 0.00
-        const valorBruto = valores.quantidadeMovimentada * precoUnit
+        const desconto = Number(valores.descontoAplicado) || 0.00
+        const valorBruto = qtdeMovimentada * precoUnit
         const valorDesconto = valorBruto * (desconto / 100)
         const precoFinalCalculado = valorBruto - valorDesconto
 
@@ -55,7 +64,7 @@ const cadastrar = async (req, res) => {
             idUsuario: valores.idUsuario,
             idProduto: valores.idProduto,
             tipoMovimento: valores.tipoMovimento,
-            quantidadeMovimentada: valores.quantidadeMovimentada,
+            quantidadeMovimentada: qtdeMovimentada,
             precoUnitario: precoUnit,
             descontoAplicado: desconto,
             precoFinal: precoFinalCalculado,
